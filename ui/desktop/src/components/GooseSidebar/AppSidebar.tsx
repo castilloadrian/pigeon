@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FileText, Clock, Home, Puzzle, History } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -97,6 +97,8 @@ const menuItems: NavigationEntry[] = [
 const AppSidebar: React.FC<SidebarProps> = ({ currentPath }) => {
   const navigate = useNavigate();
   const chatContext = useChatContext();
+  const [showRecipes, setShowRecipes] = useState(false);
+  const [showScheduler, setShowScheduler] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -104,6 +106,27 @@ const AppSidebar: React.FC<SidebarProps> = ({ currentPath }) => {
     }, 100);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // Load sidebar visibility settings
+  useEffect(() => {
+    const loadSidebarSettings = () => {
+      const recipesStored = localStorage.getItem('show_recipes_sidebar');
+      const schedulerStored = localStorage.getItem('show_scheduler_sidebar');
+      setShowRecipes(recipesStored === 'true');
+      setShowScheduler(schedulerStored === 'true');
+    };
+
+    // Load initial settings
+    loadSidebarSettings();
+
+    // Listen for storage changes
+    const handleStorageChange = () => {
+      loadSidebarSettings();
+    };
+
+    window.addEventListener('sidebar-visibility-changed', handleStorageChange);
+    return () => window.removeEventListener('sidebar-visibility-changed', handleStorageChange);
   }, []);
 
   useEffect(() => {
@@ -128,6 +151,16 @@ const AppSidebar: React.FC<SidebarProps> = ({ currentPath }) => {
 
   const isActivePath = (path: string) => {
     return currentPath === path;
+  };
+
+  // Filter menu items based on visibility settings
+  const getVisibleMenuItems = (): NavigationEntry[] => {
+    return menuItems.filter((item) => {
+      if (item.type === 'separator') return true;
+      if (item.path === '/recipes' && !showRecipes) return false;
+      if (item.path === '/schedules' && !showScheduler) return false;
+      return true;
+    });
   };
 
   const renderMenuItem = (entry: NavigationEntry, index: number) => {
@@ -159,10 +192,14 @@ const AppSidebar: React.FC<SidebarProps> = ({ currentPath }) => {
     );
   };
 
+  const visibleMenuItems = getVisibleMenuItems();
+
   return (
     <>
       <SidebarContent className="pt-16">
-        <SidebarMenu>{menuItems.map((entry, index) => renderMenuItem(entry, index))}</SidebarMenu>
+        <SidebarMenu>
+          {visibleMenuItems.map((entry, index) => renderMenuItem(entry, index))}
+        </SidebarMenu>
       </SidebarContent>
 
       <SidebarFooter />

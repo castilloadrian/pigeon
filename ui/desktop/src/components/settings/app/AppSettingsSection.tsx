@@ -27,6 +27,8 @@ export default function AppSettingsSection({ scrollToSection }: AppSettingsSecti
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [showPricing, setShowPricing] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showRecipes, setShowRecipes] = useState(false);
+  const [showScheduler, setShowScheduler] = useState(false);
   const updateSectionRef = useRef<HTMLDivElement>(null);
 
   // Check if GOOSE_VERSION is set to determine if Updates section should be shown
@@ -60,6 +62,14 @@ export default function AppSettingsSection({ scrollToSection }: AppSettingsSecti
   useEffect(() => {
     const stored = localStorage.getItem('show_pricing');
     setShowPricing(stored !== 'false');
+  }, []);
+
+  // Load sidebar visibility settings
+  useEffect(() => {
+    const recipesStored = localStorage.getItem('show_recipes_sidebar');
+    const schedulerStored = localStorage.getItem('show_scheduler_sidebar');
+    setShowRecipes(recipesStored === 'true');
+    setShowScheduler(schedulerStored === 'true');
   }, []);
 
   // Check pricing status on mount
@@ -209,6 +219,20 @@ export default function AppSettingsSection({ scrollToSection }: AppSettingsSecti
     window.dispatchEvent(new CustomEvent('storage'));
   };
 
+  const handleShowRecipesToggle = (checked: boolean) => {
+    setShowRecipes(checked);
+    localStorage.setItem('show_recipes_sidebar', String(checked));
+    // Trigger storage event for other components
+    window.dispatchEvent(new CustomEvent('sidebar-visibility-changed'));
+  };
+
+  const handleShowSchedulerToggle = (checked: boolean) => {
+    setShowScheduler(checked);
+    localStorage.setItem('show_scheduler_sidebar', String(checked));
+    // Trigger storage event for other components
+    window.dispatchEvent(new CustomEvent('sidebar-visibility-changed'));
+  };
+
   return (
     <div className="space-y-4 pr-4 pb-8 mt-1">
       <Card className="rounded-lg">
@@ -294,6 +318,39 @@ export default function AppSettingsSection({ scrollToSection }: AppSettingsSecti
               <Switch
                 checked={wakelockEnabled}
                 onCheckedChange={handleWakelockToggle}
+                variant="mono"
+              />
+            </div>
+          </div>
+
+          {/* Sidebar Visibility */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-text-default text-xs">Show Recipes in Sidebar</h3>
+              <p className="text-xs text-text-muted max-w-md mt-[2px]">
+                Display the Recipes tab in the main sidebar
+              </p>
+            </div>
+            <div className="flex items-center">
+              <Switch
+                checked={showRecipes}
+                onCheckedChange={handleShowRecipesToggle}
+                variant="mono"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-text-default text-xs">Show Scheduler in Sidebar</h3>
+              <p className="text-xs text-text-muted max-w-md mt-[2px]">
+                Display the Scheduler tab in the main sidebar
+              </p>
+            </div>
+            <div className="flex items-center">
+              <Switch
+                checked={showScheduler}
+                onCheckedChange={handleShowSchedulerToggle}
                 variant="mono"
               />
             </div>
