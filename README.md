@@ -1,6 +1,6 @@
 <div align="center">
 
-# goose fork
+# pigeon, a goose fork
 
 _a local, extensible, open source AI agent that automates engineering tasks_
 
