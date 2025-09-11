@@ -11,11 +11,11 @@ _a local, extensible, open source AI agent that automates engineering tasks_
 </p>
 </div>
 
-goose is your on-machine AI agent, capable of automating complex development tasks from start to finish. More than just code suggestions, goose can build entire projects from scratch, write and execute code, debug failures, orchestrate workflows, and interact with external APIs - _autonomously_.
+pigeon is a fork of goose, built with a focus on providing a powerful user interface and companion for interacting with your favorite llms and mcp servers.
 
-Whether you're prototyping an idea, refining existing code, or managing intricate engineering pipelines, goose adapts to your workflow and executes tasks with precision.
+unlike goose, which emphasizes direct task execution, pigeon is designed to be your on-machine ai agent—making it easier to query models, automate complex development workflows, and manage projects end to end.
 
-Designed for maximum flexibility, goose works with any LLM and supports multi-model configuration to optimize performance and cost, seamlessly integrates with MCP servers, and is available as both a desktop app as well as CLI - making it the ultimate AI assistant for developers who want to move faster and focus on innovation.
+whether you’re prototyping ideas, refining code, or orchestrating sophisticated engineering pipelines, pigeon streamlines the process by offering a seamless interface to connect with your chosen tools. it supports any llm, enables multi-model configurations to balance performance and cost, and integrates natively with mcp servers.
 
 # Goose Quick Links
 - [Quickstart](https://block.github.io/goose/docs/quickstart)
