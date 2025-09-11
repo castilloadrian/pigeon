@@ -17,6 +17,8 @@ unlike goose, which emphasizes direct task execution, pigeon is designed to be y
 
 whether you’re prototyping ideas, refining code, or orchestrating sophisticated engineering pipelines, pigeon streamlines the process by offering a seamless interface to connect with your chosen tools. it supports any llm, enables multi-model configurations to balance performance and cost, and integrates natively with mcp servers.
 
+refer to block/goose if you would like to contribute. pigeon will see less updates as it will be tailored to perform a certain task
+
 # Goose Quick Links
 - [Quickstart](https://block.github.io/goose/docs/quickstart)
 - [Installation](https://block.github.io/goose/docs/getting-started/installation)
